@@ -1,113 +1,102 @@
-# 🔐 Zero Trust SOC Lab (pfSense + Splunk)
+# 🔐 Zero Trust SOC Lab with Splunk, pfSense & Kali
 
 ## 📌 Overview
 
-This project demonstrates a **Zero Trust Network Architecture** combined with **SOC monitoring using Splunk SIEM** to detect, analyze, and block cyber attacks in a controlled lab environment.
+This project demonstrates a **Zero Trust Security Architecture** with real attack simulation and detection using **Splunk SIEM**.
 
-The lab simulates real-world attacker behavior and showcases how security teams detect and respond to threats.
+The lab simulates an attacker attempting to access a protected network, while firewall rules and monitoring tools detect and block malicious activity.
 
 ---
 
 ## 🎯 Objectives
 
-* Simulate attacks using Kali Linux
-* Enforce Zero Trust segmentation using pfSense
-* Monitor logs using Splunk SIEM
-* Detect and analyze malicious activity
-* Visualize attacks using dashboards
-* Document incident response
+* Simulate network attacks using Kali Linux
+* Implement Zero Trust segmentation with pfSense
+* Detect malicious activity using Splunk SIEM
+* Create dashboards and alerts
+* Produce an incident report
 
 ---
 
 ## 🧱 Lab Architecture
 
-* **Firewall:** pfSense (Network segmentation & Zero Trust rules)
-* **SIEM:** Splunk Enterprise (Log monitoring & detection)
-* **Attacker:** Kali Linux
-* **Target Network:** Windows / Internal LAN
-* **DMZ Network:** 192.168.2.0/24
+* Kali Linux (Attacker)
+* pfSense Firewall (Zero Trust enforcement)
+* Ubuntu (Splunk SIEM)
+* Segmented networks (LAN, DMZ)
 
 ---
 
-## ⚙️ Key Implementation
+## 🔥 Attack & Defense Flow (SOC Storytelling)
 
-### 🔹 Network Segmentation (Zero Trust)
-
-* LAN: `192.168.1.0/24`
-* DMZ: `192.168.2.0/24`
-* Traffic from DMZ → LAN is **blocked by default**
-
----
-
-### 🔹 Firewall Rules (pfSense)
-
-* Block DMZ → LAN
-* Allow limited HTTP/HTTPS/DNS outbound
-* Enforce least privilege access
+1. Attack initiated from Kali Linux
+2. Network segmented using VMware
+3. DMZ created in pfSense
+4. Firewall rules enforce Zero Trust
+5. Attack detected in logs (Splunk & pfSense)
+6. Attack blocked (firewall evidence)
+7. Summary dashboard visualizes activity
 
 ---
 
-### 🔹 Attack Simulation
+## 📸 Key Evidence
 
-**Tool:** Nmap (Kali Linux)
+### 🔴 Attack Simulation (Kali)
 
-```
-nmap -Pn -sS 192.168.1.0/24
-```
+![Attack](Screenshots/Attack_Kali.png)
 
-Simulates reconnaissance activity (MITRE T1595).
+### 🟡 Network Segmentation (VMware)
+
+![Network](Screenshots/Network_Vmware.png)
+
+### 🔵 Firewall Rules (Zero Trust)
+
+![Rules](Screenshots/Firewall_rules\(1\).png)
+
+### 🚫 Blocked Traffic Logs (pfSense)
+
+![Logs](Screenshots/Detected_logs.png)
+
+### 📊 Summary Dashboard (pfSense)
+
+![Summary](Screenshots/summary_chart_2.png)
+
+### 🧠 Splunk Detection
+
+![Splunk Search](Screenshots/splunk_detection_search.png)
+
+### 📊 Splunk Dashboard
+
+![Splunk Dashboard](Screenshots/splunk_dashboard.png)
 
 ---
 
-### 🔹 Detection (Splunk SIEM)
+## 🔍 Detection Logic (Splunk)
 
-```
+```spl
 index=main "UFW BLOCK"
 | stats count as blocked_attempts by SRC
+| where blocked_attempts > 20
 | sort -blocked_attempts
 ```
 
-Identifies top attacking IPs and abnormal traffic patterns.
-
 ---
 
-## 📸 Screenshots (Attack Story)
+## 🚨 Features
 
-1. Attack initiated (Kali Linux)
-2. Network segmentation (VMware)
-3. DMZ created (pfSense interface)
-4. Firewall rules enforced (Zero Trust)
-5. Attack detected (pfSense logs)
-6. Attack blocked (log evidence)
-7. Summary visualization (pfSense dashboard)
-8. Splunk detection search
-9. Splunk dashboard (Top attacking IPs)
-
----
-
-## 📊 SIEM Monitoring (Splunk)
-
-* Real-time log ingestion
-* Detection of blocked traffic
-* Visualization of attack patterns
-* Identification of malicious IPs
+* Zero Trust Network Design
+* Firewall rule enforcement
+* Attack detection and logging
+* SIEM monitoring (Splunk)
+* Dashboard visualization
+* Incident reporting
 
 ---
 
 ## 🧠 MITRE ATT&CK Mapping
 
-* **T1595 – Active Scanning**
-* **T1046 – Network Service Discovery**
-
----
-
-## 🚨 Incident Summary
-
-* **Attacker:** Kali Linux (192.168.2.x)
-* **Target:** Internal LAN
-* **Activity:** Network scanning
-* **Detection:** Firewall logs + Splunk SIEM
-* **Outcome:** All traffic successfully blocked
+* T1595 – Active Scanning
+* T1110 – Brute Force
 
 ---
 
@@ -120,21 +109,23 @@ See:
 
 ## 🏁 Conclusion
 
-This project demonstrates practical SOC skills:
+This project demonstrates hands-on experience in:
 
-* Network security (Zero Trust)
-* Threat detection (Splunk SIEM)
-* Log analysis
-* Attack simulation
-* Incident documentation
+* Security monitoring (SOC Level 1)
+* Threat detection and analysis
+* Network segmentation (Zero Trust)
+* SIEM usage (Splunk)
+* Incident response documentation
 
 ---
 
 ## 🚀 Skills Demonstrated
 
-* SIEM (Splunk)
-* Network Security (pfSense)
-* Threat Detection & Analysis
-* MITRE ATT&CK Mapping
+* Splunk (SIEM)
+* pfSense (Firewall)
+* Nmap (Scanning)
+* Network Security
+* Log Analysis
 * Incident Response
-* Log Monitoring & Visualization
+* Zero Trust Architecture
+
